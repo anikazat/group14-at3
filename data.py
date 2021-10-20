@@ -13,3 +13,8 @@ st.write(f'**Number of Columns:** {len(df.columns)}')
 st.write(f'**Number of Duplicated Rows:** {print(df.duplicated)}')
 st.write(f'**Number of Rows with Missing Values:** {sum(map(any, df.isna()))}')
 st.write('**List of Columns:** ', ', '.join(list(df.keys())))
+#add types of columns here
+show_nrows = st.slider('Select the number of rows to be displayed', 5, 50, 5)
+st.write('Top Rows of Table', df.head(show_nrows).to)
+st.write('Bottom Rows of Table', df.tail(show_nrows))
+st.write('Random Sample Rows of Table', df.sample(show_nrows))
