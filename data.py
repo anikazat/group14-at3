@@ -18,3 +18,5 @@ show_nrows = st.slider('Select the number of rows to be displayed', 5, 50, 5)
 st.write('Top Rows of Table', df.head(show_nrows).to)
 st.write('Bottom Rows of Table', df.tail(show_nrows))
 st.write('Random Sample Rows of Table', df.sample(show_nrows))
+#fix multiselect to convert dates
+convert_date = st.multiselect('Which columns do you want to convert to dates?', df.columns)
