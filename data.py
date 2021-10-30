@@ -93,7 +93,7 @@ class Dataset:
     """
     return ', '.join(list(self.df.select_dtypes(include=['datetime64[ns]']).columns))
 
-
+# Everything below is to check that the functions work. Will move this before submission
 def datetime_fun(column):
     """ 
     function that will convert a colomn to datetime format
