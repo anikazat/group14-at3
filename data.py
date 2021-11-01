@@ -43,7 +43,7 @@ class Dataset:
     """
       Return dictionary with column name as keys and data type as values
     """
-    return dict(self.df.dtypes)
+    return pd.DataFrame(self.df.dtypes.astype(str))
 
   def get_n_duplicates(self):
     """
@@ -111,8 +111,10 @@ st.write(f'**Number of Rows:** {Dataset.get_n_rows(df)}')
 st.write(f'**Number of Columns:** {Dataset.get_n_cols(df)}')
 st.write(f'**Number of Duplicated Rows:** {print(Dataset.get_n_duplicates(df))}')
 st.write(f'**Number of Rows with Missing Values:** {Dataset.get_n_missing(df)}')
-st.write(f'**List of Columns:** {Dataset.get_cols_list(df)}')
-st.write('**Types of Columns:**', Dataset.get_cols_dtype(df))
+st.write('**List of Columns:** ')
+st.text(Dataset.get_cols_list(df))
+st.write('**Types of Columns:**')
+st.dataframe(Dataset.get_cols_dtype(df))
 show_nrows = st.slider('Select the number of rows to be displayed', 5, 50, 5)
 select_column = st.multiselect('Which columns do you want to convert to dates', df.select_dtypes(include='object').columns, on_change=form_callback)
 
