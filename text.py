@@ -91,7 +91,7 @@ st.write(f'**Number of Rows with Only Number as Characters:** {self.serie.count(
 
 st.write(f'**Mode for Selected Column:** {self.serie.mode()}
 
-st.write(f'*Number of Occurrence for Each Value:** {bar_chart(self.serie.value_counts())}
+st.write(f'*Number of Occurrence for Each Value:** {}
 
 st.write(f'**Frequencies and Percentage for Each Value:** {}
 
