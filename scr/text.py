@@ -1,67 +1,71 @@
-
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
-
-csv_file = st.file_uploader("Choose a CSV file", type=['csv'])
-
+from pandas import Series
 
 
-file_url = (‘https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
-df = pd.read_csv(file_url)
 
 
+st.title('Web App')
 st.subheader('Information on text columns')
 
+'''csv_file = st.file_uploader("Choose a CSV file", type=['csv'])
+df = pd.read_csv(csv_file)'''
+
+file_url = ('https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
+df = pd.read_csv(file_url)
+newdf = df.select_dtypes(include=object)
+
+if st.checkbox('Show data'):
+     st.write(df)
+
+
+st.subheader('Response')
 
 @dataclass
 class TextColumn:
   col_name: str
   serie: pd.Series
-  
+
   def get_name(self):
-    if self.serie.values.dtype = object:
+    if self.serie.values.dtype == object:
       return self.col_name
 
   def get_unique(self):
     unique_values = len(self.serie.unique())
     return unique_values
 
-
   def get_missing(self):
     missing_values = self.serie.isna().sum()
     return missing_values
-    
 
   def get_empty(self):
     empty_string = (self.serie.values == '').sum()
     return empty_string
 
-
   def get_whitespace(self):
     white_spaces = (self.serie.values == ' ').sum()
-    return white_spaces
+    return white_spaces 
 
   def get_lowercase(self):
-    lower_case_characters = self.serie.str.count(str.islower = True)
-    return lower_case_characters
+    lower_case_characters = self.serie.str.count(str.islower == True)
+    return lower_case_characters 
 
   def get_uppercase(self):
-    upper_case_characters = self.serie.str.count(str.isupper = True)
+    upper_case_characters = self.serie.str.count(str.isupper == True)
     return upper_case_characters
-  
-  def get_alphabet(self):
-    alphabet_characters = self.serie.count(series.str.isalpha = TRUE)
-    return alphabet_characters
 
+  def get_alphabet(self):
+    alphabet_characters = self.serie.count(series.str.isalpha == True)
+    return alphabet_characters  
+ 
   def get_digit(self):
-    numbers_as_characters = self.serie.count(series.str.isnumeric = TRUE)
+    numbers_as_characters = self.serie.count(series.str.isnumeric == True)
     return numbers_as_characters
 
   def get_mode(self):
     mode_value = self.serie.mode()
-    return mode_value
-
+    return mode_value 
 
   def get_barchart(self):
     occurrence = self.serie.value_counts()
@@ -71,15 +75,12 @@ class TextColumn:
 
   def get_frequent(self):
       Frequency_percentage = self.serie.apply(pd.value_counts)
-      return Frequency_percentage
-    
+      return Frequency_percentage 
 
-st.write(f'**3.3 Field Name:** {get_name(STR_Columns)}')
 
+st.write(f'**3.3 Field Name:** {TextColumn.get_name(TextColumn)}')
 st.write(f'**Number of Unique Values:** {get_unique(serie)}')
-
 st.write(f'**Number of Missing Values:** {self.serie.isna().sum()}')
-
 st.write(f'**Number of Missing Values:** {self.serie.isna().sum()}')
 
 st.write(f'**Number of Rows with Empty String:** {(self.serie.values == '').sum()}') 
@@ -99,8 +100,3 @@ st.write(f'**Mode for Selected Column:** {self.serie.mode()}
 # st.write(f'*Number of Occurrence for Each Value:** {bar_chart(self.serie.value_counts())}
 
 # st.write(f'**Frequencies and Percentage for Each Value:** {}
-
-
-
-
-
