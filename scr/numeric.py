@@ -1,19 +1,26 @@
-import pandas as pd
-import streamlit as st
-# from data import df
 from dataclasses import dataclass
 from pandas import Series,DataFrame
-from streamlit.delta_generator import DELTA_TYPES_THAT_MELT_DATAFRAMES
-
-st.title('Numeric Information')
-
+import streamlit as st
+import pandas as pd
+# import exe3
+def rd_numeric(n_data):
+    column = n_data.columns
+    for i in column:
+        if n_data[(f'{i}')].dtype == object:pass
+            # print('no')
+        else:
+            ls = NumericColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
+            # subtitle=ls.get_name()
+            ls.table()
+            ls.freq()
 @dataclass
 class NumericColumn:
   col_name: str
   serie: pd.Series
   def get_name(self):
-    if self.serie.values.dtype != object:
-      return self.col_name
+    # if self.serie.values.dtype != object:
+    return self.col_name
+    # else:pass
  
   def get_unique(self):
     unique=self.serie.value_counts().sum()
@@ -62,7 +69,14 @@ class NumericColumn:
                     'maximum value':self.get_max(),
                     'median value':self.get_median()}}
     data=DataFrame(test_data)
-    return data
-
+    # return st.subheader((f'Field Name: {self.get_name()}')), st.write(data)
+    return st.markdown(f'* **Field Name:** {self.get_name()}'), st.write(data)
   
-DELTA_TYPES_THAT_MELT_DATAFRAMES
+  def freq(self):
+    do=self.serie.value_counts(ascending=False)
+    dt=self.serie.value_counts(normalize=True)
+    table={'value':do.index,
+           'occur':do.values,
+           'freq':dt.values}
+    dc=DataFrame(table)
+    return st.subheader(f'Most Frequent Values'),st.write(dc.head(20))
