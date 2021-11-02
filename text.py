@@ -2,7 +2,11 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 
-file_url = ('CSV link')
+csv_file = st.file_uploader("Choose a CSV file", type=['csv'])
+
+
+
+file_url = (‘https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
 df = pd.read_csv(file_url)
 
 
