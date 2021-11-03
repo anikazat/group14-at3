@@ -10,8 +10,7 @@ class DateColumn:
   col_name: str
   serie: pd.Series
 
-  '''def col_type(self, value:datetime64):
-    self.name = value.get('col_name')'''
+
 
   def get_name(self):
     """
