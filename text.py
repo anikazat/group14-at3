@@ -110,3 +110,7 @@ st.write(f'**Mode for Selected Column:** {TextColumn.get_mode()}')
 st.write(f'*Number of Occurrence for Each Value:** {TextColumn.get_barchart()}')
 
 st.write(f'**Frequencies and Percentage for Each Value:** {TextColumn.get_frequent()}')
+
+                                                  
+                                                  
+                                                  
