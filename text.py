@@ -1,8 +1,7 @@
-from pandas.core.frame import DataFrame
+import pandas as pd
 import streamlit as st
 from dataclasses import dataclass
-import pandas as pd
-from pandas import Series
+from pandas import Series,DataFrame
 
 
 st.subheader('Information on text columns')
@@ -10,13 +9,11 @@ st.subheader('Information on text columns')
 '''csv_file = st.file_uploader("Choose a CSV file", type=['csv'])
 df = pd.read_csv(csv_file)'''
 
-'''ile_url = ('https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
+'''file_url = ('https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
 df = pd.read_csv(file_url)
 newdf = df.select_dtypes(include=object)'''
 
-'''
-if st.checkbox('Show data'):
-     st.write(df)'''
+
 
 def rd_text(n_data):
     column = n_data.columns
