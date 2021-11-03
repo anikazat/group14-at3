@@ -1,18 +1,25 @@
 from dataclasses import dataclass
+from numpy import NaN
 from pandas import Series,DataFrame
 import streamlit as st
 import pandas as pd
-# import exe3
+import matplotlib.pyplot as plt
+
+
 def rd_numeric(n_data):
     column = n_data.columns
+    n=0
     for i in column:
         if n_data[(f'{i}')].dtype == object:pass
-            # print('no')
+        
         else:
-            ls = NumericColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
-            # subtitle=ls.get_name()
-            ls.table()
-            ls.freq()
+          ls = NumericColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
+          st.subheader(f'2.{n} Field Name: {i}')
+          ls.table()
+          ls.get_histogram()
+          ls.freq()
+          n=n+1
+            
 @dataclass
 class NumericColumn:
   col_name: str
@@ -69,14 +76,25 @@ class NumericColumn:
                     'maximum value':self.get_max(),
                     'median value':self.get_median()}}
     data=DataFrame(test_data)
-    # return st.subheader((f'Field Name: {self.get_name()}')), st.write(data)
-    return st.markdown(f'* **Field Name:** {self.get_name()}'), st.write(data)
+    return st.write(data)
+  
+  def get_histogram(self):
+    if self.get_missing() == len(self.serie):
+      st.markdown(f'* Can not create Histogram without values')
+    else:
+      fig, ax = plt.subplots()
+      ax.hist(self.serie, bins=50,edgecolor='white')
+      plt.xlabel(f'{self.col_name}')
+      plt.ylabel('Count of Records')
+      st.markdown(f'* Histogram'),st.pyplot(fig)
   
   def freq(self):
-    do=self.serie.value_counts(ascending=False)
-    dt=self.serie.value_counts(normalize=True)
-    table={'value':do.index,
-           'occur':do.values,
-           'freq':dt.values}
-    dc=DataFrame(table)
-    return st.subheader(f'Most Frequent Values'),st.write(dc.head(20))
+    if self.get_missing() == len(self.serie):pass
+    else:
+      do=self.serie.value_counts(ascending=False)
+      dt=self.serie.value_counts(normalize=True)
+      table={'value':do.index,
+            'occur':do.values,
+            'freq':dt.values}
+      dc=DataFrame(table)
+      st.markdown(f'* Most Frequent Values'),st.write(dc.head(20))
