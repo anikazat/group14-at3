@@ -104,3 +104,4 @@ class DateColumn:
     subset_cols = ['occurence','percentage']
 
     return dat[subset_cols].head(20)
+  ..
