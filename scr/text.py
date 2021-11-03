@@ -2,25 +2,33 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 from pandas import Series
+from scr.text import TextColumn
 
 
-
-
-st.title('Web App')
 st.subheader('Information on text columns')
 
 '''csv_file = st.file_uploader("Choose a CSV file", type=['csv'])
 df = pd.read_csv(csv_file)'''
 
-file_url = ('https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
+'''ile_url = ('https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
 df = pd.read_csv(file_url)
-newdf = df.select_dtypes(include=object)
+newdf = df.select_dtypes(include=object)'''
 
+'''
 if st.checkbox('Show data'):
-     st.write(df)
+     st.write(df)'''
 
+def rd_text(n_data):
+    column = n_data.columns
+    for i in column:
+        if n_data[(f'{i}')].dtype == object
+            # print('no')
+        else:
+            ls = TextColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
+            # subtitle=ls.get_name()
+            ls.table()
+            ls.freq()
 
-st.subheader('Response')
 
 @dataclass
 class TextColumn:
