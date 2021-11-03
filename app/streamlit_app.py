@@ -1,3 +1,8 @@
+import sys
+import os
+if os.path.abspath(".") not in sys.path: 
+  sys.path.append(os.path.abspath("."))
+
 from dataclasses import dataclass
 from pandas import Series,DataFrame
 import streamlit as st
@@ -11,4 +16,4 @@ if csv_file is not None:
     st.title('2. Numeric Column Information')
     rn(df)
 else:
-    st.write('No csv file uploaded')
+    st.stop()
