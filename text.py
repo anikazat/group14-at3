@@ -18,11 +18,11 @@ newdf = df.select_dtypes(include=object)'''
 
 
 
-def rd_text(n_data):
-    column = n_data.columns
+def rd_text(o_data):
+    column = o_data.columns
     for i in column:
-        if n_data[(f'{i}')].dtype == object:
-          dt = TextColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
+        if o_data[(f'{i}')].dtype == object:
+          dt = TextColumn((f'{i}'),pd.Series(o_data[(f'{i}')].values))
           dt.table()
           dt.get_barchart()
           dt.get_frequent()
@@ -76,15 +76,7 @@ class TextColumn:
     mode_value = self.serie.mode()
     return mode_value 
 
-  def get_barchart(self):
-    occurrence = self.serie.value_counts()
-    value = df.self.serie 
-    barchart = self.serie.plot.bar(x=value, y=occurrence, rot=0)
-    return barchart
-
-  def get_frequent(self):
-      Frequency_percentage = self.serie.apply(pd.value_counts)
-      return Frequency_percentage 
+ 
 
   def table(self):
     test_data={'value':{'number of unique values':self.get_unique(),
@@ -101,7 +93,24 @@ class TextColumn:
     data=DataFrame(test_data)
     return data 
 
+  def get_barchart(self):
+    occurrence = self.serie.value_counts()
+    value = df.self.serie 
+    barchart = self.serie.plot.bar(x=value, y=occurrence, rot=0)
+    return barchart
 
+  def get_frequent(self):
+        if self.get_missing() == len(self.serie):pass
+        else:
+            do=self.serie.value_counts(ascending=False)
+            dt=self.serie.value_counts(normalize=True)
+            table={'value':do.index,
+                  'occur':do.values,
+                  'freq':dt.values}
+            dc=DataFrame(table)
+st.markdown(f'* Most Frequent Values'),st.write(dc.head(20))
+
+ 
 st.write(f'**3.3 Field Name:** {TextColumn.get_name(TextColumn)}')
 st.write(f'**Number of Unique Values:** {TextColumn.get_unique()}')
 
