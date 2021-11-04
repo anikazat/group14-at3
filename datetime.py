@@ -85,7 +85,7 @@ class DateColumn:
       if str(i).startswith('1970-01-01'):
         num+=1
         
-    return None
+    return num
 
   def get_min(self):
     """

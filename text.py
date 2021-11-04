@@ -1,4 +1,3 @@
-
 import pandas as pd
 import streamlit as st
 from dataclasses import dataclass
@@ -116,6 +115,7 @@ st.write(f'**Number of Unique Values:** {TextColumn.get_unique()}')
 
 st.write(f'**Number of Missing Values:** {TextColumn.get_missing()}') 
 
+
 st.write(f'**Number of Missing Values:** {TextColumn.get_missing()}')
 
 st.write(f'**Number of Rows with Empty String:** {(TextColumn.get_empty())}') 
@@ -133,6 +133,7 @@ st.write(f'**Number of Rows with Only Number as Characters:** {TextColumn.get_di
 st.write(f'**Mode for Selected Column:** {TextColumn.get_mode()}')
 
 st.write(f'*Number of Occurrence for Each Value:** {TextColumn.get_barchart()}')
+
 
 st.write(f'**Frequencies and Percentage for Each Value:** {TextColumn.get_frequent()}')
 
