@@ -2,7 +2,7 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 from pandas import Series
-from scr.text import TextColumn
+from src.text import TextColumn
 
 
 st.subheader('Information on text columns')
