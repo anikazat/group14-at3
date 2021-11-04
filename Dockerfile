@@ -5,4 +5,3 @@ RUN pip install -r requirements.txt
 COPY . /app
 ENV PYTHONPATH "${PYTHONPATH}:/app/src"
 CMD ["streamlit", "run", "app/streamlit_app.py"]
- 
