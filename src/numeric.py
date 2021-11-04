@@ -1,20 +1,31 @@
-import pandas as pd
-import streamlit as st
-# from data import df
 from dataclasses import dataclass
+from numpy import NaN, datetime64
 from pandas import Series,DataFrame
-from streamlit.delta_generator import DELTA_TYPES_THAT_MELT_DATAFRAMES
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 
-st.title('Numeric Information')
 
+def read_numeric(n_data):
+    column = n_data.columns
+    n=0
+    for i in column:
+        if n_data[(f'{i}')].dtype == int or n_data[(f'{i}')].dtype == float:
+          ls = NumericColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
+          st.subheader(f'2.{n} Field Name: {i}')
+          ls.table()
+          ls.get_histogram()
+          ls.freq()
+          n=n+1
+        else:pass
 @dataclass
 class NumericColumn:
   col_name: str
   serie: pd.Series
+  
   def get_name(self):
-    if self.serie.values.dtype != object:
-      return self.col_name
- 
+    return self.col_name
+   
   def get_unique(self):
     unique=self.serie.value_counts().sum()
     return unique
@@ -24,7 +35,7 @@ class NumericColumn:
     return miss
   
   def get_zeros(self):
-    zero= (self.serie.values == 0).sum()
+    zero= (self.serie.values == [0]).sum()
     return zero
   
   def get_negatives(self):
@@ -62,7 +73,25 @@ class NumericColumn:
                     'maximum value':self.get_max(),
                     'median value':self.get_median()}}
     data=DataFrame(test_data)
-    return data
-
+    return st.write(data)
   
-DELTA_TYPES_THAT_MELT_DATAFRAMES
+  def get_histogram(self):
+    if self.get_missing() == len(self.serie):
+      st.markdown(f'* Can not create Histogram without values')
+    else:
+      fig, ax = plt.subplots()
+      ax.hist(self.serie, bins=50,edgecolor='white')
+      plt.xlabel(f'{self.col_name}')
+      plt.ylabel('Count of Records')
+      st.markdown(f'* Histogram'),st.pyplot(fig)
+  
+  def freq(self):
+    if self.get_missing() == len(self.serie):pass
+    else:
+      do=self.serie.value_counts(ascending=False)
+      dt=self.serie.value_counts(normalize=True)
+      table={'value':do.index,
+            'occur':do.values,
+            'freq':dt.values}
+      dc=DataFrame(table)
+      st.markdown(f'* Most Frequent Values'),st.write(dc.head(20))
