@@ -24,11 +24,11 @@ def main():
     read_numeric(df)
 
     # Run section 3: Text Column Information 
-    st.subheader('3. Information on text columns')
+    st.subheader('3. Text Column Information')
     #rd_text()
 
     # Run section 4: Datetime Column Information
-    st.subheader('4. Information on datetime columns')
+    st.subheader('4. Datetime Column Information')
     rd_dtime(df)
 
   else:
