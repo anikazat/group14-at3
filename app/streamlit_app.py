@@ -32,7 +32,7 @@ def main():
     
     run_section1()
     st.subheader('2. Information on numeric columns')
-    #rn(df)
+    rn(df)
   else:
     # st.warning('No csv file uploaded')
     st.stop()
