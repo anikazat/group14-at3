@@ -3,15 +3,28 @@ from numpy import datetime64
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
+from pandas import Series,DataFrame
+
+
+
+def rd_dtime(datetype):
+  column = datetype.columns
+  for i in column:
+    if datetype[(f'{i}')].dtype == datetime64:
+      dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
+      dt.table()
+      dt.get_barchart()
+      dt.get_frequent()
+
+    else:
+      return None
+
 
 
 @dataclass
 class DateColumn:
   col_name: str
   serie: pd.Series
-
-  '''def col_type(self, value:datetime64):
-    self.name = value.get('col_name')'''
 
   def get_name(self):
     """
@@ -26,7 +39,10 @@ class DateColumn:
     Return number of unique values for selected column
     """
     
-    return len(pd.unique(self.serie))
+    return self.serie.nunique()
+
+    #return len(pd.unique(self.serie))
+    
 
   def get_missing(self):
     """
@@ -72,7 +88,7 @@ class DateColumn:
       if str(i).startswith('1970-01-01'):
         num+=1
         
-    return None
+    return num
 
   def get_min(self):
     """
@@ -91,17 +107,54 @@ class DateColumn:
     Return the generated bar chart for selected column
     """
     
-    return st.bar_chart(self.serie.value_counts())
+    return st.subheader(f'Bar Chart'),st.bar_chart(self.serie.value_counts())
+    
+    #return st.bar_chart(self.serie.value_counts())
+  
 
+#   def get_frequent(self):
+#     """
+#     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
+#     """
+    
+#     dat = self.serie.value_counts()
+#     dat = pd.DataFrame(dat)
+#     dat['occurence'] = self.serie.value_counts()
+#     dat['percentage'] = self.serie.value_counts(normalize=True)
+#     subset_cols = ['occurence','percentage']
+
+#     return dat[subset_cols].head(20)
+  
   def get_frequent(self):
+
     """
     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
     """
-    
-    dat = self.serie.value_counts()
-    dat = pd.DataFrame(dat)
-    dat['occurence'] = self.serie.value_counts()
-    dat['percentage'] = self.serie.value_counts(normalize=True)
-    subset_cols = ['occurence','percentage']
-
-    return dat[subset_cols].head(20)
+    dat=self.serie.value_counts(ascending=False)
+    dp=self.serie.value_counts(normalize=True)
+    table={'value':dat.index,
+           'occurence':dat.values,
+           'percentage':dp.values}
+    dfr=DataFrame(table)
+    return st.subheader(f'Most Frequent Values'),st.write(dfr.head(20))  
+  
+  
+  
+  def table(self):
+    date_data={'value':{'Number of Unique Values':self.get_unique(), 
+                    'Number of Rows with Missing Values':self.get_missing(),
+                    'Number of Weekend Dates':self.get_weekend(),
+                    'Number of Weekday Dates':self.get_weekday(),
+                    'Number of Dates in Future':self.get_future(),
+                    'Number of Rows with 1900-01-01':self.get_empty_1900(),
+                    'Number of Rows with 1970-01-01':self.get_empty_1970(),
+                    'Minimun Value':self.get_min(),
+                    'Maximun Value':self.get_max()}}
+    data=DataFrame(date_data)
+    return st.markdown(f'* **Field Name:** {self.get_name()}'), st.write(data)
+  
+  
+  
+  
+  
+  
