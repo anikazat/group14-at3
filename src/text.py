@@ -4,133 +4,121 @@ from dataclasses import dataclass
 from pandas import Series,DataFrame
 
 
-st.subheader('Information on text columns')
-
-'''csv_file = st.file_uploader("Choose a CSV file", type=['csv'])
-df = pd.read_csv(csv_file)'''
-
-'''file_url = ('https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_daily_reports_us/01-01-2021.csv?raw=true')
-df = pd.read_csv(file_url)
-newdf = df.select_dtypes(include=object)'''
-
-
-
-def rd_text(o_data):
-    column = o_data.columns
-    for i in column:
-        if o_data[(f'{i}')].dtype == object:
-          dt = TextColumn((f'{i}'),pd.Series(o_data[(f'{i}')].values))
-          dt.table()
-          dt.get_barchart()
-          dt.get_frequent()
-            
-        else:
-            return None
-
-
 @dataclass
 class TextColumn:
   col_name: str
   serie: pd.Series
 
+  def __init__(self, data):
+    self.data = data
+   
+
   def get_name(self):
-    if self.serie.values.dtype == object:
-      return self.col_name
+    if self.data.dtypes == 'object':
+      return self.data.name
 
   def get_unique(self):
-    unique_values = len(self.serie.unique())
+    unique_values = len(self.data.unique())
     return unique_values
-
+  
   def get_missing(self):
-    missing_values = self.serie.isna().sum()
+    missing_values = self.data.isna().sum()
     return missing_values
 
   def get_empty(self):
-    empty_string = (self.serie.values == '').sum()
+    empty_string = (self.data == '').sum()
     return empty_string
 
   def get_whitespace(self):
-    white_spaces = (self.serie.values == ' ').sum()
+    white_spaces = (self.data == ' ').sum()
     return white_spaces 
 
   def get_lowercase(self):
-    lower_case_characters = self.serie.str.count(str.islower == True)
-    return lower_case_characters 
+    lower_case_characters =0
+    for i in self.data:
+      if i.islower():
+        lower_case_characters +=1
+    return lower_case_characters
 
   def get_uppercase(self):
-    upper_case_characters = self.serie.str.count(str.isupper == True)
+    upper_case_characters =0
+    for i in self.data:
+      if i.isupper():
+        upper_case_characters +=1
     return upper_case_characters
 
   def get_alphabet(self):
-    alphabet_characters = self.serie.count(series.str.isalpha == True)
+    alphabet_characters =0
+    for i in self.data:
+      if i.isalpha():
+        alphabet_characters +=1
     return alphabet_characters  
  
   def get_digit(self):
-    numbers_as_characters = self.serie.count(series.str.isnumeric == True)
+    numbers_as_characters =0
+    for i in self.data:
+      if i.isnumeric():
+        numbers_as_characters +=1
     return numbers_as_characters
 
   def get_mode(self):
-    mode_value = self.serie.mode()
+    mode_value = self.data.mode()[0]
     return mode_value 
 
- 
-
-  def table(self):
-    test_data={'value':{'number of unique values':self.get_unique(),
-    'number of missing values': self.get_missing(),
-    'number of empty rows': self.get_empty(),
-    'number of whitespace rows':self.get_whitespace(),
-    'number of lower case rows': self.get_lowercase(),
-    'number of upper case rows': self.get_uppercase(),
-    'number of alphabet rows': self.get_alphabet(),
-    'number of digit rows': self.get_digit(),
-    'Mode for selected column': self.get_mode(),
-    'number of occurrence': self.get_barchart(),
-    'number of frequency': self.get_frequent()}} 
-    data=DataFrame(test_data)
-    return data 
-
   def get_barchart(self):
-    occurrence = self.serie.value_counts()
-    value = df.self.serie 
-    barchart = self.serie.plot.bar(x=value, y=occurrence, rot=0)
+    barchart = self.data.value_counts()
     return barchart
 
-
   def get_frequent(self):
-        if self.get_missing() == len(self.serie):pass
-        else:
-            do=self.serie.value_counts(ascending=False)
-            dt=self.serie.value_counts(normalize=True)
-            table={'value':do.index,
-                  'occur':do.values,
-                  'freq':dt.values}
-            dc=DataFrame(table)
-st.markdown(f'* Most Frequent Values'),st.write(dc.head(20))
+      Frequency_percentage = self.data.value_counts()/len(self.data)
+      occurence = self.data.value_counts()
+      u=pd.concat([occurence,Frequency_percentage],axis = 1,keys =['Occurence','Frequency_percentage'])
+      return u 
 
  
-st.write(f'**3.3 Field Name:** {TextColumn.get_name(TextColumn)}')
-st.write(f'**Number of Unique Values:** {TextColumn.get_unique()}')
 
-st.write(f'**Number of Missing Values:** {TextColumn.get_missing()}') 
 
-st.write(f'**Number of Missing Values:** {TextColumn.get_missing()}')
+def main():
+  html_temp ="""
+  <div style ="background-color: grey;padding:13px">
+  <h1 style ="color:black;text-align:center;">Collaborative Development of Data Explorer Web App </h1>
+  </div>
+  """
 
-st.write(f'**Number of Rows with Empty String:** {(TextColumn.get_empty())}') 
+  st.markdown(html_temp,unsafe_allow_html = True)
+  uploaded_file = st.file_uploader("Choose a file")
+  if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    st.write(df)
+    Field = st.selectbox('Field Name',(df.columns))
+    name = Field
+    s = pd.Series(df[name].values)
+    
+    t =TextColumn(s)
 
-st.write(f'**Number of Rows with Only Whitespaces:** {TextColumn.get_whitespace()}')
+    test_data={'Value':{'number of unique values':t.get_unique(),
+    'number of missing values': t.get_missing(),
+    'number of empty rows': t.get_empty(),
+    'number of whitespace rows':t.get_whitespace(),
+    'number of lower case rows': t.get_lowercase(),
+    'number of upper case rows': t.get_uppercase(),
+    'number of alphabet rows': t.get_alphabet(),
+    'number of digit rows': t.get_digit(),
+    'Mode for selected column': t.get_mode()}}
 
-st.write(f'**Number of Rows with Only Lower Case Characters:** {TextColumn.get_lowercase()}')
+    full=DataFrame(test_data)
+    table1=full.astype(str)
+    st.subheader("Exploratory Data Analysis")
+    st.dataframe(table1)
 
-st.write(f'**Number of Rows with Only Upper Case Characters:** {TextColumn.get_uppercase()}')
+    st.subheader("Bar Chart")
+    st.bar_chart(t.get_barchart())
 
-st.write(f'**Number of Rows with Only Alphabet Characters:** {TextColumn.get_alphabet()}')
+    st.subheader("Most Frequent Values")
+    table2 = t.get_frequent()
+    freq_table = table2.astype(str)
+    st.dataframe(freq_table)
 
-st.write(f'**Number of Rows with Only Number as Characters:** {TextColumn.get_digit()}')
 
-st.write(f'**Mode for Selected Column:** {TextColumn.get_mode()}')
-
-st.write(f'*Number of Occurrence for Each Value:** {TextColumn.get_barchart()}')
-
-st.write(f'**Frequencies and Percentage for Each Value:** {TextColumn.get_frequent()}')
-
+if __name__=='__main__': 
+    main()
