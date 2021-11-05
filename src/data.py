@@ -2,6 +2,7 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 
+# Function to get all the information for section 1
 def read_data(name, df):
     ls = Dataset(name, df)
     st.header('1. Overall Information')
@@ -118,4 +119,3 @@ class Dataset:
       Return list column names of datetime type from loaded dataset
     """
     return list(self.df.select_dtypes(include=['datetime64[ns]']).columns)
-
