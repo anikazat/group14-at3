@@ -12,18 +12,20 @@ def rd_dtime(datetype):
   column = datetype.columns
   n=0
   for i in column:
-    if datetype[(f'{i}')].dtype == datetime:
+    
+    
+    if datetype[(f'{i}')].dtype == int or datetype[(f'{i}')].dtype == float or datetype[(f'{i}')].dtype == object:pass
+    
+    else:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
       st.subheader(f'4.{n} Field Name:{dt.get_name()}')
-      st.dataframe(dt.table())
+      #st.dataframe(dt.table())
       st.markdown(f'Bar Chart')
       st.write(dt.get_barchart())
       st.markdown(f'Most Frequent Values')
       st.write(dt.get_frequent())
       
       n=n+1
-
-    else:pass
 
 
 
