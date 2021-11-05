@@ -4,6 +4,7 @@ import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
 from pandas import Series,DataFrame
+import datetime
 
 
 
@@ -13,7 +14,7 @@ def rd_dtime(datetype):
   for i in column:
     if datetype[(f'{i}')].dtype == datetime:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
-      st.subheader(f'4.{n} Field Name:{dt.col_name}')
+      st.subheader(f'4.{n} Field Name:{dt.get_name()}')
       st.dataframe(dt.table())
       st.markdown(f'Bar Chart')
       st.write(dt.get_barchart())
@@ -22,8 +23,7 @@ def rd_dtime(datetype):
       
       n=n+1
 
-    else:
-      return None
+    else:pass
 
 
 
@@ -167,7 +167,3 @@ class DateColumn:
                     'Maximun Value':self.get_max()}}
     data=DataFrame(date_data)
     return data
-  
-  
-  
-  
