@@ -3,7 +3,7 @@ import streamlit as st
 from dataclasses import dataclass
 from pandas import Series,DataFrame
 
-def read_numeric(n_data):
+def read_text(n_data):
     column = n_data.columns
     n=0
     for i in column:
