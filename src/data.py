@@ -18,7 +18,7 @@ def read_data(name, df):
     container1 = st.container()
     select_column = st.multiselect('Which columns do you want to convert to dates', ls.get_text_columns())
     with container1:
-      try:
+      try: 
         if any(col in select_column for col in df.columns):
           for i in select_column:
             df[i] = pd.to_datetime(df[i])
