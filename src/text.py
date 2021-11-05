@@ -76,10 +76,10 @@ class TextColumn:
       return u 
 
 
-def text_main(z):
+def text_main(df):
 
   
-  st.write(z)
+  st.write(df)
   for i in df.columns:
     s = pd.Series(df[i].values)
     if s.dtypes =='object':
