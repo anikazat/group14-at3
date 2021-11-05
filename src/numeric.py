@@ -107,6 +107,7 @@ class NumericColumn:
 
 
   def table(self):
+    #organize all numeric data to a table
     test_data={'value':{'number of unique values':self.get_unique(), 
                     'number of missing values':self.get_missing(),
                     'number of occurrence of 0 value':self.get_zeros(),
