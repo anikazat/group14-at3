@@ -3,7 +3,7 @@ import pandas as pd
 from src.numeric import read_numeric
 from src.data import read_data
 from src.datetime import rd_dtime
-#from src.text import rd_text
+from src.text import read_text
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
 
     # Run section 3: Text Column Information 
     st.header('3. Text Column Information')
-    #rd_text()
+     read_text(df)
 
     # Run section 4: Datetime Column Information
     st.header('4. Datetime Column Information')
