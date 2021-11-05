@@ -13,7 +13,7 @@ def rd_dtime(datetype):
   for i in column:
     if datetype[(f'{i}')].dtype == datetime64:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
-      st.subheader(f'4.{n} Field Name:{i}')
+      st.subheader(f'4.{n} Field Name:{dt.get_name()}')
       dt.table()
       dt.get_barchart()
       dt.get_frequent()
@@ -110,7 +110,7 @@ class DateColumn:
     Return the generated bar chart for selected column
     """
     
-    return st.subheader(f'Bar Chart'),st.bar_chart(self.serie.value_counts())
+    return st.markdown(f'Bar Chart'),st.bar_chart(self.serie.value_counts())
     
     #return st.bar_chart(self.serie.value_counts())
   
@@ -139,7 +139,7 @@ class DateColumn:
            'occurence':dat.values,
            'percentage':dp.values}
     dfr=DataFrame(table)
-    return st.subheader(f'Most Frequent Values'),st.write(dfr.head(20))  
+    return st.markdown(f'Most Frequent Values'),st.write(dfr.head(20))  
   
   
   
@@ -154,8 +154,7 @@ class DateColumn:
                     'Minimun Value':self.get_min(),
                     'Maximun Value':self.get_max()}}
     data=DataFrame(date_data)
-    return st.markdown(f'* **Field Name:** {self.get_name()}'), st.write(data)
-  
+    return st.write(data)
   
   
   
