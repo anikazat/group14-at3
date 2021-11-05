@@ -78,8 +78,8 @@ class TextColumn:
 
 def text_main(z):
 
-  df = pd.read_csv(z)
-  st.write(df)
+  
+  st.write(z)
   for i in df.columns:
     s = pd.Series(df[i].values)
     if s.dtypes =='object':
