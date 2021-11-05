@@ -34,9 +34,10 @@ def read_numeric(n_data):
 class NumericColumn:
   col_name: str
   serie: pd.Series
+
   def get_name(self):
     return self.col_name
- 
+
   def get_unique(self):
     unique=self.serie.value_counts().sum()
     return unique
@@ -73,6 +74,7 @@ class NumericColumn:
     mid= self.serie.median()
     return mid
 
+
    
   def get_histogram(self):
     fig, ax = plt.subplots()
@@ -90,6 +92,7 @@ class NumericColumn:
     dc=pd.DataFrame(table)
     return dc
 
+
   def table(self):
     test_data={'value':{'number of unique values':self.get_unique(), 
                     'number of missing values':self.get_missing(),
@@ -102,4 +105,5 @@ class NumericColumn:
                     'median value':self.get_median()}}
     data=DataFrame(test_data)
     return data
-    #organize all numeric data to a table
+
+   

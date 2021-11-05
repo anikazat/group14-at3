@@ -1,4 +1,3 @@
-import unittest
 import numpy as np
 import pandas as pd
 import sys
@@ -74,3 +73,4 @@ class TestNumeric(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
