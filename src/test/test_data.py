@@ -9,7 +9,7 @@ import pandas.testing as pd_testing
 
 class TestDataset(unittest.TestCase):
 
-    ### Should this be here or inside each of the test functions? ###
+    # Set up data to test
     test_name = 'name.csv'
     test_df = pd.DataFrame(np.random.randn(50, 20), columns=('col %d' % i for i in range(20)))
     test_data = Dataset(test_name, test_df)
@@ -19,7 +19,7 @@ class TestDataset(unittest.TestCase):
         test_result = self.test_data.get_name()
         
         # Verify results
-        self.assertEqual(test_result, self.test_name) #or 'name.csv'
+        self.assertEqual(test_result, self.test_name)
     
     def test_get_n_rows(self):
         # Run function
@@ -76,16 +76,6 @@ class TestDataset(unittest.TestCase):
 
         # Verify results
         pd_testing.assert_frame_equal(test_result, self.test_df.tail())
-
-    # def test_get_sample(self):
-    #     # Set up data to test
-    #     # self.test_df.sample(n=5, random_state=1)
-    #     # Run function
-    #     test_result = self.test_data.get_sample()
-
-    #     # Verify results
-    #     self.assertEqual(test_result, pd.DataFrame)
-    #     # pd_testing.assert_frame_equal(test_result, self.test_df.sample(5))
     
     def test_get_numeric_columns(self):
         # Run function
