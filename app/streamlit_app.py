@@ -20,15 +20,15 @@ def main():
     read_data(csv_file.name, df)
 
     # Run section 2: Numeric Column Information
-    st.subheader('2. Numeric Column Information')
+    st.header('2. Numeric Column Information')
     read_numeric(df)
 
     # Run section 3: Text Column Information 
-    st.subheader('3. Text Column Information')
+    st.header('3. Text Column Information')
     #rd_text()
 
     # Run section 4: Datetime Column Information
-    st.subheader('4. Datetime Column Information')
+    st.header('4. Datetime Column Information')
     rd_dtime(df)
 
   else:

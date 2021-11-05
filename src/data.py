@@ -4,7 +4,7 @@ import pandas as pd
 
 def read_data(name, df):
     ls = Dataset(name, df)
-    st.subheader('1. Overall Information')
+    st.header('1. Overall Information')
     st.write(f'**Name of Table:** {ls.get_name()}')
     st.write(f'**Number of Rows:** {ls.get_n_rows()}')
     st.write(f'**Number of Columns:** {ls.get_n_cols()}')
