@@ -1,5 +1,5 @@
 # To be filled by students
-from numpy import datetime64
+#from numpy import datetime64
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
@@ -11,12 +11,15 @@ def rd_dtime(datetype):
   column = datetype.columns
   n=0
   for i in column:
-    if datetype[(f'{i}')].dtype == datetime64:
+    if datetype[(f'{i}')].dtype == datetime:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
-      st.subheader(f'4.{n} Field Name:{dt.get_name()}')
-      dt.table()
-      dt.get_barchart()
-      dt.get_frequent()
+      st.subheader(f'4.{n} Field Name:{dt.col_name}')
+      st.dataframe(dt.table())
+      st.markdown(f'Bar Chart')
+      st.write(dt.get_barchart())
+      st.markdown(f'Most Frequent Values')
+      st.write(dt.get_frequent())
+      
       n=n+1
 
     else:
@@ -41,8 +44,8 @@ class DateColumn:
     """
     Return number of unique values for selected column
     """
-    
-    return self.serie.nunique()
+    unique = self.serie.nunique()
+    return unique
 
     #return len(pd.unique(self.serie))
     
@@ -51,25 +54,31 @@ class DateColumn:
     """
     Return number of missing values for selected column
     """
-    return self.serie.isna().sum()
+    missing = self.serie.isna().sum()
+    return missing
 
   def get_weekend(self):
     """
     Return number of occurrence of days falling during weekend (Saturday and Sunday)
     """
-    return self.serie.dt.dayofweek.isin([5,6]).sum()
+    
+    weekend = self.serie.dt.dayofweek.isin([5,6]).sum()
+    return weekend
 
   def get_weekday(self):
     """
     Return number of weekday days (not Saturday or Sunday)
     """
-    return self.serie.dt.dayofweek.isin([0,1,2,3,4]).sum()
+    weekday = self.serie.dt.dayofweek.isin([0,1,2,3,4]).sum()
+    return weekday
   
   def get_future(self):
     """
     Return number of cases with future dates (after today)
     """
-    return sum ( self.serie > pd.to_datetime("today") )
+    
+    future = sum ( self.serie > pd.to_datetime("today") )
+    return future
 
   def get_empty_1900(self):
     """
@@ -97,20 +106,23 @@ class DateColumn:
     """
     Return the minimum date
     """
-    return self.serie.min()
+    min = self.serie.min()
+    return min
 
   def get_max(self):
     """
     Return the maximum date 
     """
-    return self.serie.max() 
+    
+    max = self.serie.max()
+    return max
 
   def get_barchart(self):
     """
     Return the generated bar chart for selected column
     """
     
-    return st.markdown(f'Bar Chart'),st.bar_chart(self.serie.value_counts())
+    return st.bar_chart(self.serie.value_counts())
     
     #return st.bar_chart(self.serie.value_counts())
   
@@ -139,7 +151,7 @@ class DateColumn:
            'occurence':dat.values,
            'percentage':dp.values}
     dfr=DataFrame(table)
-    return st.markdown(f'Most Frequent Values'),st.write(dfr.head(20))  
+    return dfr.head(20)
   
   
   
@@ -154,7 +166,7 @@ class DateColumn:
                     'Minimun Value':self.get_min(),
                     'Maximun Value':self.get_max()}}
     data=DataFrame(date_data)
-    return st.write(data)
+    return data
   
   
   
