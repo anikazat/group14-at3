@@ -15,13 +15,15 @@ def rd_dtime(datetype):
     
     
     if datetype[(f'{i}')].dtype == int or datetype[(f'{i}')].dtype == float or datetype[(f'{i}')].dtype == object:pass
+    # tried to use  .dtype = datetime or datetime64 directly,but it doesn't work( to recognise datetime datatype columns)
+    # therefore, here set the condition to filter out numeric types and text types
     
     else:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
       st.subheader(f'4.{n} Field Name:{dt.get_name()}')
       #st.dataframe(dt.table())
       st.markdown(f'Bar Chart')
-      st.write(dt.get_barchart())
+      #st.write(dt.get_barchart())
       st.markdown(f'Most Frequent Values')
       st.write(dt.get_frequent())
       
