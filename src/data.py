@@ -16,19 +16,25 @@ def read_data(name, df):
     st.dataframe(pd.DataFrame.from_dict(ls.get_cols_dtype(), orient='index', columns=(['type'])))
     show_nrows = st.slider('Select the number of rows to be displayed', 5, 50, 5)
     container1 = st.container()
-    select_column = st.multiselect('Which columns do you want to convert to dates', df.select_dtypes(include='object').columns)
+    select_column = st.multiselect('Which columns do you want to convert to dates', ls.get_text_columns())
     with container1:
-      if any(ele in select_column for ele in df.columns):
-        for i in select_column:
+      try: 
+        if any(col in select_column for col in df.columns):
+          for i in select_column:
             df[i] = pd.to_datetime(df[i])
             df.append(df[i])
+          st.write('**Top Rows of Table**', ls.get_head(show_nrows))
+          st.write('**Bottom Rows of Table**', ls.get_tail(show_nrows))
+          st.write('**Random Sample Rows of Table**', ls.get_sample(show_nrows))
+        else:
+          st.write('**Top Rows of Table**', ls.get_head(show_nrows))
+          st.write('**Bottom Rows of Table**', ls.get_tail(show_nrows))
+          st.write('**Random Sample Rows of Table**', ls.get_sample(show_nrows))
+      except:
         st.write('**Top Rows of Table**', ls.get_head(show_nrows))
         st.write('**Bottom Rows of Table**', ls.get_tail(show_nrows))
         st.write('**Random Sample Rows of Table**', ls.get_sample(show_nrows))
-      else:
-        st.write('**Top Rows of Table**', ls.get_head(show_nrows))
-        st.write('**Bottom Rows of Table**', ls.get_tail(show_nrows))
-        st.write('**Random Sample Rows of Table**', ls.get_sample(show_nrows))
+        st.write(f'**_{i}_** cannot be converted into datetime')
 
 @dataclass
 class Dataset:
