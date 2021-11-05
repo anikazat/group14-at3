@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from numpy import NaN, datetime64
 from pandas import Series,DataFrame
 import streamlit as st
 import pandas as pd
@@ -12,20 +11,33 @@ def read_numeric(n_data):
     for i in column:
         if n_data[(f'{i}')].dtype == int or n_data[(f'{i}')].dtype == float:
           ls = NumericColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
-          st.subheader(f'2.{n} Field Name: {i}')
-          ls.table()
-          ls.get_histogram()
-          ls.freq()
+          st.subheader(f'2.{n} Field Name: {ls.col_name}')
+          st.dataframe(ls.table())
+          st.markdown(f'* Histogram')
+
+          if ls.get_missing() == len(ls.serie):
+             st.write(f'Can not create Histogram without values')
+          else:
+             st.pyplot(ls.get_histogram())
+
+          st.markdown(f'* Most Frequent Values')
+          if ls.get_missing() == len(ls.serie):
+            st.markdown("No frequent values")
+          else:
+            st.dataframe(ls.frequent().head(20))
           n=n+1
+
         else:pass
+        #get result from NumericColumn,and organize the display structure
+
 @dataclass
 class NumericColumn:
   col_name: str
   serie: pd.Series
-  
+
   def get_name(self):
     return self.col_name
-   
+
   def get_unique(self):
     unique=self.serie.value_counts().sum()
     return unique
@@ -35,7 +47,7 @@ class NumericColumn:
     return miss
   
   def get_zeros(self):
-    zero= (self.serie.values == [0]).sum()
+    zero= (self.serie.values == 0).sum()
     return zero
   
   def get_negatives(self):
@@ -62,6 +74,25 @@ class NumericColumn:
     mid= self.serie.median()
     return mid
 
+
+   
+  def get_histogram(self):
+    fig, ax = plt.subplots()
+    ax.hist(self.serie, bins=50,edgecolor='white')
+    plt.xlabel(f'{self.col_name}')
+    plt.ylabel('Count of Records')
+    return fig
+  
+  def frequent(self):
+    do=self.serie.value_counts(ascending=False)
+    dt=self.serie.value_counts(normalize=True)
+    table={'value':do.index,
+            'occur':do.values,
+            'freq':dt.values}
+    dc=pd.DataFrame(table)
+    return dc
+
+
   def table(self):
     test_data={'value':{'number of unique values':self.get_unique(), 
                     'number of missing values':self.get_missing(),
@@ -73,25 +104,6 @@ class NumericColumn:
                     'maximum value':self.get_max(),
                     'median value':self.get_median()}}
     data=DataFrame(test_data)
-    return st.write(data)
-  
-  def get_histogram(self):
-    if self.get_missing() == len(self.serie):
-      st.markdown(f'* Can not create Histogram without values')
-    else:
-      fig, ax = plt.subplots()
-      ax.hist(self.serie, bins=50,edgecolor='white')
-      plt.xlabel(f'{self.col_name}')
-      plt.ylabel('Count of Records')
-      st.markdown(f'* Histogram'),st.pyplot(fig)
-  
-  def freq(self):
-    if self.get_missing() == len(self.serie):pass
-    else:
-      do=self.serie.value_counts(ascending=False)
-      dt=self.serie.value_counts(normalize=True)
-      table={'value':do.index,
-            'occur':do.values,
-            'freq':dt.values}
-      dc=DataFrame(table)
-      st.markdown(f'* Most Frequent Values'),st.write(dc.head(20))
+    return data
+
+   
