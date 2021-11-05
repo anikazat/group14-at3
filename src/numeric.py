@@ -13,14 +13,14 @@ def read_numeric(n_data):
           ls = NumericColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
           st.subheader(f'2.{n} Field Name: {ls.col_name}')
           st.dataframe(ls.table())
-          st.markdown(f'* Histogram')
+          st.markdown(f'Histogram')
 
           if ls.get_missing() == len(ls.serie):
              st.write(f'Can not create Histogram without values')
           else:
              st.pyplot(ls.get_histogram())
 
-          st.markdown(f'* Most Frequent Values')
+          st.markdown(f'Most Frequent Values')
           if ls.get_missing() == len(ls.serie):
             st.markdown("No frequent values")
           else:
