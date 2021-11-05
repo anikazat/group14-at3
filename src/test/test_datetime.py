@@ -1,8 +1,10 @@
 # To be filled by students
 import unittest 
-from src.datetime import DateColumn
 from numpy import datetime64
 import pandas as pd
+import sys
+sys.path.append("..")
+from src.datetime import DateColumn
 
 class DateColumn(unittest.TestCase):
     ###s = pd.Series(['2021-11-04', '2014-05-05', '','1900-01-01','1900-01-01'], name='Datetime')###
@@ -133,3 +135,7 @@ class DateColumn(unittest.TestCase):
         #verify result
         self.assertEqual(expected, actual)
         
+
+        
+if __name__ == '__main__':
+    unittest.main()        

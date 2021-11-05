@@ -124,21 +124,6 @@ class DateColumn:
     
     return st.bar_chart(self.serie.value_counts())
     
-    #return st.bar_chart(self.serie.value_counts())
-  
-
-#   def get_frequent(self):
-#     """
-#     Return the Pandas dataframe containing the occurrences and percentage of the top 20 most frequent values
-#     """
-    
-#     dat = self.serie.value_counts()
-#     dat = pd.DataFrame(dat)
-#     dat['occurence'] = self.serie.value_counts()
-#     dat['percentage'] = self.serie.value_counts(normalize=True)
-#     subset_cols = ['occurence','percentage']
-
-#     return dat[subset_cols].head(20)
   
   def get_frequent(self):
 
