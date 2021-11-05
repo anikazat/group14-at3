@@ -3,6 +3,29 @@ import streamlit as st
 from dataclasses import dataclass
 from pandas import Series,DataFrame
 
+def read_numeric(n_data):
+    column = n_data.columns
+    n=0
+    for i in column:
+        if n_data[(f'{i}')].dtype == int or n_data[(f'{i}')].dtype == object:
+          ls = TextColumn((f'{i}'),pd.Series(n_data[(f'{i}')].values))
+          st.subheader(f'3.{n} Field Name: {ls.col_name}')
+          st.dataframe(ls.table())
+          st.markdown(f'* Bar Chart')
+
+          if ls.get_missing() == len(ls.serie):
+             st.write(f'Can not create Bar_chart without values')
+          else:
+             st.pyplot(ls.get_barchart())
+
+          st.markdown(f'* Most Frequent Values')
+          if ls.get_missing() == len(ls.serie):
+            st.markdown("No frequent values")
+          else:
+            st.dataframe(ls.frequent().head(20))
+          n=n+1
+
+        else:pass
 
 @dataclass
 class TextColumn:
@@ -73,15 +96,14 @@ class TextColumn:
       Frequency_percentage = self.data.value_counts()/len(self.data)
       occurence = self.data.value_counts()
       u=pd.concat([occurence,Frequency_percentage],axis = 1,keys =['Occurence','Frequency_percentage'])
-      return u 
-
+      return u
  
 
 
 def main():
   html_temp ="""
-  <div style ="background-color: grey;padding:13px">
-  <h1 style ="color:black;text-align:center;">Collaborative Development of Data Explorer Web App </h1>
+  <div style ="">
+  <h1 style ="color:black;text-align:center;"> </h1>
   </div>
   """
 
