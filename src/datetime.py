@@ -1,5 +1,5 @@
 # To be filled by students
-from numpy import datetime64
+#from numpy import datetime64
 import streamlit as st
 from dataclasses import dataclass
 import pandas as pd
@@ -11,7 +11,7 @@ def rd_dtime(datetype):
   column = datetype.columns
   n=0
   for i in column:
-    if datetype[(f'{i}')].dtype == datetime64:
+    if datetype[(f'{i}')].dtype == datetime:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
       st.subheader(f'4.{n} Field Name:{dt.col_name}')
       st.dataframe(dt.table())
