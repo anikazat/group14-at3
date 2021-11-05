@@ -25,7 +25,7 @@ def main():
 
     # Run section 3: Text Column Information 
     st.header('3. Text Column Information')
-     read_text(df)
+    read_text(df)
 
     # Run section 4: Datetime Column Information
     st.header('4. Datetime Column Information')
