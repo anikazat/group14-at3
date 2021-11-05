@@ -9,12 +9,15 @@ from pandas import Series,DataFrame
 
 def rd_dtime(datetype):
   column = datetype.columns
+  n=0
   for i in column:
     if datetype[(f'{i}')].dtype == datetime64:
       dt = DateColumn((f'{i}'),pd.Series(datetype[(f'{i}')].values))
+      st.subheader(f'4.{n} Field Name:{i}')
       dt.table()
       dt.get_barchart()
       dt.get_frequent()
+      n=n+1
 
     else:
       return None
@@ -152,7 +155,6 @@ class DateColumn:
                     'Maximun Value':self.get_max()}}
     data=DataFrame(date_data)
     return st.markdown(f'* **Field Name:** {self.get_name()}'), st.write(data)
-  
   
   
   
