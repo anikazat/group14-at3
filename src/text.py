@@ -108,5 +108,5 @@ def text_main(df):
       freq_table = table2.astype(str)
       st.dataframe(freq_table)
     else:
-      st.subheader("Can not run this section as there aren't any text columns")
+      
       pass
